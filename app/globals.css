@@ -1,8 +1,58 @@
 @import "tailwindcss";
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+@import 'swiper/css/navigation';
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
+}
+
+
+@property --ang {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: true;
+}
+
+.animated-card {
+  --alpha: 0.45;
+  border: 4px solid transparent;
+  border-radius: 16px;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  background:
+    linear-gradient(rgba(6,6,6,0.9), rgba(6,6,6,0.9)) padding-box,
+    conic-gradient(from var(--ang), rgba(0,173,204,var(--alpha)), transparent 45%) border-box;
+
+  animation: spin-border 20s linear infinite;
+  filter: url(#border-glow);
+}
+
+@keyframes spin-border {
+  to { --ang: 1turn; }
+}
+
+
+
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --primary: #00adcc;
+  --secondary-100: #dbdbdb;
+  --secondary-700: rgba(6,6,6,0.7);
 }
 
 @theme inline {
@@ -19,8 +69,220 @@
   }
 }
 
+:root {
+  --bg-pos-x: 50%;
+  --bg-pos-y: 40%;
+  --bg-pos-x-2: 20%;
+  --bg-pos-y-2: 70%;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 112.5%; /* base ~18px for slightly larger UI */
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Utility helper for the Figma glass cards */
+.glass {
+  background: linear-gradient(105deg, rgba(6,6,6,0.88), rgba(120,120,120,0.18));
+  border: 1px solid rgba(0,173,204,0.14);
+  backdrop-filter: blur(10px);
+}
+
+.fg-gradient {
+  background: linear-gradient(90deg, var(--primary), #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-outline-primary {
+  background: #070707;
+  border: 1.75px solid var(--primary);
+  color: var(--secondary-100);
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.btn-muted {
+  background: var(--secondary-100);
+  color: #000;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* Skill category button style */
+.btn-skill {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(0,173,204,0.18);
+  color: var(--secondary-100);
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 12px rgba(0,173,204,0.10);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  position: relative;
+  z-index: 0;
+}
+.btn-skill:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.55), 0 0 16px rgba(0,173,204,0.14);
+}
+.btn-skill:active {
+  transform: translateY(0px) scale(0.995);
+}
+.btn-skill:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0,173,204,0.12), 0 12px 28px rgba(0,0,0,0.45);
+}
+.btn-skill.active {
+  border-color: rgba(0,173,204,0.6);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.55), 0 0 22px rgba(0,173,204,0.22);
+}
+
+/* rotating ring / glow behind buttons */
+.btn-skill::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 14px;
+  pointer-events: none;
+  z-index: -1;
+  background: conic-gradient(from 0deg, rgba(0,173,204,0.14), rgba(0,173,204,0.02) 25%, rgba(0,173,204,0.14) 50%, rgba(0,173,204,0.02) 75%, rgba(0,173,204,0.14));
+  filter: blur(10px);
+  opacity: 0.25;
+  transform: rotate(0deg);
+  transition: opacity 240ms ease, transform 240ms ease;
+  animation: ring-rotate 6s linear infinite;
+}
+.btn-skill:hover::after { opacity: 0.6; filter: blur(12px); }
+
+@keyframes ring-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Ensure skills card keeps a consistent minimum height */
+.skills-card {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Skill bubble float animation */
+@keyframes bubble-float {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  20% { transform: translateY(-18px) translateX(10px) rotate(3deg); }
+  40% { transform: translateY(6px) translateX(-14px) rotate(-2deg); }
+  60% { transform: translateY(18px) translateX(12px) rotate(2deg); }
+  80% { transform: translateY(-10px) translateX(-8px) rotate(-1deg); }
+  100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+}
+
+
+.skill-bubble {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms ease;
+}
+
+/* center each bubble so `left/top` coordinates are the bubble center */
+.skill-bubble {
+  transform: translate(-50%, -50%);
+}
+
+.bubble-dot {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  position: relative;
+  overflow: visible;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.45), 0 4px 10px rgba(0,0,0,0.25);
+  /* animate the inner dot so centering transform on wrapper isn't overridden */
+  animation-name: bubble-float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  will-change: transform;
+}
+
+.skill-bubble:hover .bubble-dot {
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+}
+
+.skills-bubble-container .bubble-dot {
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* left skills list scroll styling */
+.skills-list .flex {
+  -webkit-overflow-scrolling: touch;
+}
+.skills-list .flex::-webkit-scrollbar {
+  width: 10px;
+}
+.skills-list .flex::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+}
+.skills-list .flex::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* dim non-matching list items while preserving layout */
+.dimmed {
+  opacity: 0.32;
+  filter: grayscale(60%);
+  transition: opacity 160ms ease, filter 160ms ease, transform 160ms ease;
+}
+
+/* Mobile select styling (dark theme) */
+.select-skill {
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0.85), rgba(10,10,10,0.85));
+  color: var(--secondary-100);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 8px rgba(0,173,204,0.04);
+}
+.select-skill:focus {
+  outline: none;
+  border-color: rgba(0,173,204,0.5);
+  box-shadow: 0 0 0 6px rgba(0,173,204,0.06), 0 12px 28px rgba(0,0,0,0.45);
+}
+.select-skill option {
+  background: #0a0a0a;
+  color: var(--secondary-100);
+}
+
+/* subtle rounded box behind each node to separate from background */
+.bubble-dot::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: -14px;
+  right: -14px;
+  bottom: -14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  z-index: -1;
+  filter: blur(6px);
 }

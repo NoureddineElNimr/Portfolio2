@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/Footer";
+import { HiHome, HiUser, HiDocumentText, HiFolder, HiMail } from 'react-icons/hi';
+import Navbar from "@/components/Navbar";
+import ContactModal from '@/components/ui/ContactModal'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-black via-gray-900 to-black text-white`}
       >
-        {children}
+        <div className="min-h-screen flex flex-col">
+          <main className="flex-grow overflow-y-auto h-screen pt-24">
+            {children}
+            <Navbar />
+            <Footer />
+          </main>
+
+          
+        </div>
       </body>
     </html>
   );
