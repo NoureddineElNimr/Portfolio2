@@ -47,7 +47,7 @@ export default function ContactModal() {
 
                 <div className="flex flex-col gap-4">
                   <a
-                    href="mailto:youremail@example.com"
+                    href="mailto:elnimr.noureddine@gmail.com"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
                     <HiMail className="w-5 h-5" />
@@ -55,7 +55,7 @@ export default function ContactModal() {
                   </a>
 
                   <a
-                    href="https://linkedin.com/in/yourprofile"
+                    href="https://www.linkedin.com/in/noureddine-elnimr/"
                     target="_blank"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
@@ -64,7 +64,7 @@ export default function ContactModal() {
                   </a>
 
                   <a
-                    href="https://github.com/yourprofile"
+                    href="https://github.com/NoureddineElNimr"
                     target="_blank"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
