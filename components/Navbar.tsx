@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { HiHome, HiUser, HiDocumentText, HiFolder, HiMail } from 'react-icons/hi';
+import { HiHome, HiUser, HiDocumentText, HiFolder } from 'react-icons/hi';
 import ContactModal from './ui/ContactModal';
 
 export default function Navbar() {
@@ -11,38 +11,50 @@ export default function Navbar() {
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
       } else {
-        // If not on homepage, navigate to home and scroll
         window.location.href = `/#${id}`;
       }
     }
   };
 
+  const itemClasses =
+    "group relative flex items-center gap-2 px-4 py-2 rounded-full text-[color:var(--secondary-100)] transition-all duration-300 hover:bg-white/10 hover:text-white";
+
+  const iconClasses =
+    "w-6 h-6 md:w-7 md:h-7 transition-transform duration-300 group-hover:scale-110";
+
   return (
-    <nav className="fixed left-1/2 transform -translate-x-1/2 top-6 z-50">
-      <div className="bg-[rgba(6,6,6,0.9)] border border-[var(--primary)] rounded-full px-8 py-4 flex items-center gap-8 shadow-lg">
-
-        <button onClick={() => scrollToSection("home")} className="flex items-center gap-3 text-[color:var(--secondary-100)] hover:text-white">
-          <HiHome className="w-6 h-6 md:w-8 md:h-8" />
-          <span className="hidden md:inline text-base">Home</span>
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="
+        flex items-center gap-2 md:gap-4
+        rounded-full
+        px-4 md:px-6 py-3
+        backdrop-blur-xl
+        bg-black/60
+        border border-white/10
+        shadow-[0_0_30px_rgba(0,0,0,0.6)]
+      ">
+        <button onClick={() => scrollToSection("home")} className={itemClasses}>
+          <HiHome className={iconClasses} />
+          <span className="hidden md:inline text-sm font-medium">Home</span>
         </button>
 
-        <button onClick={() => scrollToSection("about")} className="flex items-center gap-3 text-[color:var(--secondary-100)] hover:text-white">
-          <HiUser className="w-6 h-6 md:w-8 md:h-8" />
-          <span className="hidden md:inline text-base">About me</span>
+        <button onClick={() => scrollToSection("about")} className={itemClasses}>
+          <HiUser className={iconClasses} />
+          <span className="hidden md:inline text-sm font-medium">About</span>
         </button>
 
-        <Link href="/pages/cv" className="flex items-center gap-3 text-[color:var(--secondary-100)] hover:text-white">
-          <HiDocumentText className="w-6 h-6 md:w-8 md:h-8" />
-          <span className="hidden md:inline text-base">CV</span>
+        <Link href="/pages/cv" className={itemClasses}>
+          <HiDocumentText className={iconClasses} />
+          <span className="hidden md:inline text-sm font-medium">CV</span>
         </Link>
 
-        <button onClick={() => scrollToSection("projects")} className="flex items-center gap-3 text-[color:var(--secondary-100)] hover:text-white">
-          <HiFolder className="w-6 h-6 md:w-8 md:h-8" />
-          <span className="hidden md:inline text-base">Projects</span>
+        <button onClick={() => scrollToSection("projects")} className={itemClasses}>
+          <HiFolder className={iconClasses} />
+          <span className="hidden md:inline text-sm font-medium">Projects</span>
         </button>
 
+        {/* Contact keeps its own modal logic */}
         <ContactModal />
-
       </div>
     </nav>
   );

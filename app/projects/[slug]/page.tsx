@@ -3,6 +3,7 @@ import MagneticButton from '@/components/ui/MagneticButton';
 import { projects } from '@/data/projects';
 import ProjectCarousel from '@/components/ui/ProjectCarousel';
 import ParticlesBackground from '@/components/ui/ParticlesBackground';
+
 interface ProjectPageProps {
   params: { slug: string };
 }
@@ -16,105 +17,111 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     return <p className="text-white text-center mt-20">Project not found</p>;
 
   return (
-    <main className="min-h-screen flex flex-col items-center pt-24 pb-20">
-    <ParticlesBackground />
-    <div className="text-white">
-      {/* Title + Image Section */}
-      <section className="min-h-screen flex flex-col items-center justify-center gap-8 px-6">
-        <AnimatedCard>
-          <div className="max-w-4xl text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[color:var(--primary)] mb-4">
-              {project.title}
-            </h1>
-            <p className="text-gray-300 text-base">{project.description}</p>
-          </div>
+    <main className="relative min-h-screen text-white">
+      <ParticlesBackground />
 
-          <div className="flex-1 flex items-center justify-center mt-8">
-            <div className="glass h-64 w-full max-w-5xl overflow-hidden rounded-md">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-          {/* Role / Timeline / Tools Section */}
-          <section className="flex items-center justify-center px-6 py-8">
-            
-              <div className="max-w-5xl w-full text-center grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="glass p-6 text-[color:var(--secondary-100)]">
-                  <p className="text-base font-extrabold text-[color:var(--primary)]">ROLE</p>
-                  <p className="mt-2">{project.role}</p>
+      <div className="pt-24 pb-20 flex flex-col gap-24">
+
+        {/* ================= HERO ================= */}
+        <section className="px-6">
+          <AnimatedCard>
+            <div className="max-w-5xl mx-auto flex flex-col gap-8 p-6 md:p-10">
+
+              {/* Title */}
+              <div className="text-center max-w-4xl mx-auto">
+                <h1 className="text-3xl md:text-5xl font-extrabold text-[color:var(--primary)] mb-4">
+                  {project.title}
+                </h1>
+                <p className="text-gray-300 text-base md:text-lg">
+                  {project.description}
+                </p>
+              </div>
+
+              {/* Image */}
+              <div className="w-full aspect-video glass overflow-hidden rounded-md">
+                <img
+                  src={project.carouselImages[0]}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Meta Info */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="glass p-4 text-center">
+                  <p className="font-extrabold text-[color:var(--primary)]">ROLE</p>
+                  <p className="mt-2 text-[color:var(--secondary-100)]">
+                    {project.role}
+                  </p>
                 </div>
-                <div className="glass p-6 text-[color:var(--secondary-100)]">
-                  <p className="text-base font-extrabold text-[color:var(--primary)]">TIMELINE</p>
-                  <p className="mt-2">{project.timeline}</p>
+
+                <div className="glass p-4 text-center">
+                  <p className="font-extrabold text-[color:var(--primary)]">TIMELINE</p>
+                  <p className="mt-2 text-[color:var(--secondary-100)]">
+                    {project.timeline}
+                  </p>
                 </div>
-                <div className="glass p-6 text-[color:var(--secondary-100)]">
-                  <p className="text-base font-extrabold text-[color:var(--primary)]">TOOLS</p>
-                  <p className="mt-2">{project.tools}</p>
+
+                <div className="glass p-4 text-center">
+                  <p className="font-extrabold text-[color:var(--primary)]">TOOLS</p>
+                  <p className="mt-2 text-[color:var(--secondary-100)]">
+                    {project.tools}
+                  </p>
                 </div>
               </div>
-            
-          </section>
-        </AnimatedCard>
-      </section>
 
-      
+            </div>
+          </AnimatedCard>
+        </section>
 
-      {/* Overview + Realizations Section */}
-      <section className="min-h-screen flex flex-1 items-center justify-center px-6">
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-8 max-w-5xl mx-auto w-full auto-rows-fr">
-          
-          {/* Project Overview Card */}
-          <div className="h-full">
+        {/* ================= OVERVIEW ================= */}
+        <section className="px-6">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 gap-8">
+
             <AnimatedCard>
-              <div className="h-full p-8 flex flex-col">
-                <h4 className="font-bold text-[color:var(--secondary-100)] text-lg mb-2">
+              <div className="p-6 md:p-8">
+                <h4 className="font-bold text-lg text-[color:var(--secondary-100)] mb-2">
                   Project Overview
                 </h4>
-                <p className="text-base text-[color:var(--secondary-100)] flex-1">
+                <p className="text-[color:var(--secondary-100)]">
                   {project.overview}
                 </p>
               </div>
             </AnimatedCard>
-          </div>
 
-          {/* Realizations & Learnings Card */}
-          <div className="h-full">
             <AnimatedCard>
-              <div className="h-full p-8 flex flex-col">
-                <h4 className="font-bold text-[color:var(--secondary-100)] text-lg mb-2">
+              <div className="p-6 md:p-8">
+                <h4 className="font-bold text-lg text-[color:var(--secondary-100)] mb-2">
                   Realizations & What I Learned
                 </h4>
-                <p className="text-base text-[color:var(--secondary-100)] flex-1">
+                <p className="text-[color:var(--secondary-100)]">
                   {project.realizations}
                 </p>
               </div>
             </AnimatedCard>
+
           </div>
+        </section>
 
-        </div>
-      </section>
+        {/* ================= VISUAL SHOWCASE ================= */}
+        <section className="px-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-8 text-[color:var(--secondary-100)]">
+            Visual Showcase
+          </h2>
 
-      {/* Visual Showcase Section */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-6">
-        <h2 className="text-2xl md:text-3xl font-extrabold mb-6 text-[color:var(--secondary-100)]">
-          Visual Showcase
-        </h2>
+          <div className="max-w-5xl mx-auto">
+            <ProjectCarousel images={project.carouselImages} />
+          </div>
+        </section>
 
-        <ProjectCarousel images={project.carouselImages} />
-      </section>
-      
+        {/* ================= BACK BUTTON ================= */}
+        <section className="flex justify-center px-6">
+          <MagneticButton href="/#projects" variant="project">
+            Back to Projects
+          </MagneticButton>
+        </section>
 
-      {/* Back Button */}
-      <section className="flex justify-center my-12 px-6">
-        <MagneticButton href="/#projects" variant="project">
-          Back to Projects
-        </MagneticButton>
-      </section>
-    </div>
-  </main>
+      </div>
+    </main>
   );
-
 }

@@ -15,11 +15,11 @@ export default function CVPage() {
         <p className="text-gray-300 mb-6">View my CV below. If it doesn&apos;t display, download the PDF.</p>
 
         <div className="bg-[rgba(6,6,6,0.6)] border border-[rgba(255,255,255,0.04)] rounded shadow h-[75vh] overflow-hidden">
-          <iframe src="/cv.pdf" className="w-full h-full" title="CV PDF" />
+          <iframe src="/Resume_Noureddine_El_Nimr.pdf" className="w-full h-full" title="CV PDF" />
         </div>
 
         <div className="mt-6 text-center">
-          <a href="/cv.pdf" download className="btn-outline-primary inline-block">Download CV (PDF)</a>
+          <a href="/Resume_Noureddine_El_Nimr.pdf" download className="btn-outline-primary inline-block">Download CV (PDF)</a>
         </div>
       </div>
     </main>
