@@ -39,7 +39,6 @@ export default function ContactModal() {
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
                 className="w-full max-w-md rounded-xl bg-[rgba(6,6,6,0.95)] border border-white/10 p-6 text-white shadow-xl"
               >
                 <Dialog.Title className="text-xl font-extrabold text-center mb-6 text-[color:var(--secondary-100)]">
