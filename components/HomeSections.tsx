@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 const imgRectangle35 = "https://www.figma.com/api/mcp/asset/08a79da4-747a-47a8-9ee7-89499214abdd";
@@ -7,7 +9,6 @@ import MagneticButton from "@/components/ui/MagneticButton";
 import AnimatedCard from "@/components/ui/AnimatedCard";
 import { projects } from '@/data/projects';
 import Link from "next/link";
-import { useRouter } from 'next/router';
 import { useState, useRef, useEffect } from "react";
 
 export default function HomeSections() {
@@ -80,6 +81,7 @@ export default function HomeSections() {
             const b = nodes[j];
             let dx = b.x - a.x;
             let dy = b.y - a.y;
+            // eslint-disable-next-line prefer-const
             let dist = Math.sqrt(dx*dx + dy*dy) || 0.001;
             if (dist < minDist) {
               const overlap = (minDist - dist) / 2;

@@ -1,3 +1,4 @@
+import ParticlesBackground from "@/components/ui/ParticlesBackground";
 import React from "react";
 
 export const metadata = {
@@ -8,7 +9,8 @@ export const metadata = {
 export default function CVPage() {
   return (
     <main className="min-h-screen flex flex-col items-center pt-24 pb-20 text-white">
-      <div className="max-w-6xl w-full px-6">
+      <ParticlesBackground />
+      <div className="max-w-6xl w-full px-6 z-10">
         <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-[color:var(--primary)]">Curriculum Vitae</h1>
         <p className="text-gray-300 mb-6">View my CV below. If it doesn&apos;t display, download the PDF.</p>
 

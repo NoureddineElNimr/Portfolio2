@@ -2,6 +2,7 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 import MagneticButton from '@/components/ui/MagneticButton';
 import { projects } from '@/data/projects';
 import ProjectCarousel from '@/components/ui/ProjectCarousel';
+import ParticlesBackground from '@/components/ui/ParticlesBackground';
 interface ProjectPageProps {
   params: { slug: string };
 }
@@ -15,6 +16,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     return <p className="text-white text-center mt-20">Project not found</p>;
 
   return (
+    <main className="min-h-screen flex flex-col items-center pt-24 pb-20">
+    <ParticlesBackground />
     <div className="text-white">
       {/* Title + Image Section */}
       <section className="min-h-screen flex flex-col items-center justify-center gap-8 px-6">
@@ -111,5 +114,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </MagneticButton>
       </section>
     </div>
+  </main>
   );
+
 }
