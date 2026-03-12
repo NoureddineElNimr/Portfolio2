@@ -1,7 +1,9 @@
+import MagicCard from "@/components/ui/MagicCard";
+
 export default function AnimatedCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="glass-card w-full">
+    <MagicCard className="w-full h-full">
       {children}
-    </div>
+    </MagicCard>
   );
 }

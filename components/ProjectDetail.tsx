@@ -1,9 +1,14 @@
-import { useRouter } from 'next/router';
+'use client';
+
+// FIX #7: replaced useRouter from next/router (Pages Router) with useParams from next/navigation (App Router)
+import { useParams } from 'next/navigation';
 import { projects } from '@/data/projects';
+import ProjectCarousel from '@/components/ui/ProjectCarousel';
 
 export default function ProjectDetail() {
-  const router = useRouter();
-  const { slug } = router.query;
+  // FIX #7: useParams returns the dynamic segment from the URL — no more crash on App Router
+  const params = useParams();
+  const slug = params?.slug as string;
 
   const project = projects.find((p) => p.id === slug);
 
@@ -15,14 +20,20 @@ export default function ProjectDetail() {
       <section className="min-h-screen flex flex-col">
         <div className="pt-20 w-full">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[color:var(--primary)] mb-4">{project.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-[color:var(--primary)] mb-4">
+              {project.title}
+            </h1>
             <p className="text-gray-300 max-w-2xl mx-auto">{project.description}</p>
           </div>
         </div>
 
         <div className="flex-1 flex items-center justify-center">
           <div className="glass h-64 w-full max-w-5xl mx-auto overflow-hidden">
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
@@ -64,16 +75,24 @@ export default function ProjectDetail() {
         </div>
       </section>
 
-      {/* Visual Showcase */}
-      <section className="min-h-screen flex flex-col">
+      {/* FIX #8: Visual Showcase now renders actual project screenshots via the carousel */}
+      <section className="min-h-screen flex flex-col pb-20">
         <div className="pt-12 w-full">
-          <div className="max-w-3xl text-center mx-auto">
-            <h3 className="text-2xl font-extrabold mb-2 text-[color:var(--secondary-100)]">Visual Showcase</h3>
+          <div className="max-w-3xl text-center mx-auto mb-8">
+            <h3 className="text-2xl font-extrabold text-[color:var(--secondary-100)]">
+              Visual Showcase
+            </h3>
           </div>
         </div>
 
         <div className="flex-1 flex items-center justify-center">
-          <div className="glass h-80 w-full max-w-6xl mx-auto" />
+          <div className="w-full max-w-6xl mx-auto px-6">
+            {project.carouselImages && project.carouselImages.length > 0 ? (
+              <ProjectCarousel images={project.carouselImages}/>
+            ) : (
+              <p className="text-center text-gray-500">No additional images available.</p>
+            )}
+          </div>
         </div>
       </section>
     </div>

@@ -1,8 +1,10 @@
+// FIX #3: Duffalos realizations field was a copy-paste of overview — now has its own unique content
 export const projects = [
   {
     id: 'Duffalos-football-club-website',
     title: 'Duffalos Football Club Website',
-    description: 'A collaborative team project focused on designing and developing a complete football club website, following agile principles and user-centered design practices.',
+    description:
+      'A collaborative team project focused on designing and developing a complete football club website, following agile principles and user-centered design practices.',
     image: "/projectsImage/Duffalo's/Duffalos.png",
     carouselImages: [
       "/projectsImage/Duffalo's/MainMenu.png",
@@ -14,13 +16,16 @@ export const projects = [
     timeline: '3 weeks',
     tools: 'PHP, Tailwind, Laravel',
     overview:
-      'This project was created as a concept assignment for a teacher-defined football club. Working in a team of six, we designed and developed a fully functional website that addressed both user and administrative needs.The project followed an agile workflow using Jira and the Scrum methodology, allowing us to plan, prioritize, and iterate efficiently throughout development.I was primarily responsible for the UI/UX design and the implementation of most user-facing features, ensuring a clear structure, intuitive navigation, and a consistent visual style across the platform.',
-    realizations: 'This project was created as a concept assignment for a teacher-defined football club. Working in a team of six, we designed and developed a fully functional website that addressed both user and administrative needs.The project followed an agile workflow using Jira and the Scrum methodology, allowing us to plan, prioritize, and iterate efficiently throughout development.I was primarily responsible for the UI/UX design and the implementation of most user-facing features, ensuring a clear structure, intuitive navigation, and a consistent visual style across the platform.',
+      'This project was created as a concept assignment for a teacher-defined football club. Working in a team of six, we designed and developed a fully functional website that addressed both user and administrative needs. The project followed an agile workflow using Jira and the Scrum methodology, allowing us to plan, prioritize, and iterate efficiently throughout development. I was primarily responsible for the UI/UX design and the implementation of most user-facing features, ensuring a clear structure, intuitive navigation, and a consistent visual style across the platform.',
+    // FIX #3: unique realizations — what was actually learned, not a repeat of the overview
+    realizations:
+      'Working in a team of six using Scrum taught me how to communicate clearly, divide responsibilities, and keep a shared codebase consistent. I sharpened my Laravel skills and gained confidence building dynamic PHP views from scratch. Handling both design and implementation at the same time gave me a deeper understanding of how design decisions directly affect code complexity — a balance I now think about on every project.',
   },
   {
     id: 'Appies-LegoBib',
     title: 'Appies LegoBib',
-    description: 'A team-based web application developed to modernize and streamline administrative workflows through a user-friendly digital solution.',
+    description:
+      'A team-based web application developed to modernize and streamline administrative workflows through a user-friendly digital solution.',
     image: '/projectsImage/AppiesLegobib/Appie-Legobib-Logo.svg',
     carouselImages: [
       '/projectsImage/AppiesLegobib/CatalogPage.png',
@@ -38,7 +43,8 @@ export const projects = [
   {
     id: 'Chatbot-AI-Teams',
     title: 'Chatbot AI for Teams',
-    description: 'An AI-powered chatbot built for Microsoft Teams, designed to provide an interactive and user-friendly way to manage a bicycle rental system.',
+    description:
+      'An AI-powered chatbot built for Microsoft Teams, designed to provide an interactive and user-friendly way to manage a bicycle rental system.',
     image: '/projectsImage/Chatbot/ChatbotImage.png',
     carouselImages: [
       '/projectsImage/Chatbot/ChatpotBegin.png',

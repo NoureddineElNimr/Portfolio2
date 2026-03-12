@@ -22,7 +22,7 @@ export default function ContactModal() {
       <AnimatePresence>
         {open && (
           <Dialog open={open} onClose={setOpen} className="relative z-50">
-            
+
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -32,7 +32,7 @@ export default function ContactModal() {
             />
 
             <div className="fixed inset-0 flex items-center justify-center px-4">
-              
+
               {/* Modal */}
               <Dialog.Panel
                 as={motion.div}
@@ -54,9 +54,11 @@ export default function ContactModal() {
                     Email
                   </a>
 
+                  {/* FIX #15: added rel="noopener noreferrer" to both external links */}
                   <a
                     href="https://www.linkedin.com/in/noureddine-elnimr/"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
                     <FaLinkedin className="w-5 h-5" />
@@ -66,6 +68,7 @@ export default function ContactModal() {
                   <a
                     href="https://github.com/NoureddineElNimr"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
                     <FaGithub className="w-5 h-5" />

@@ -1,18 +1,15 @@
 import HomeSections from "@/components/HomeSections";
 import ParticlesBackground from "@/components/ui/ParticlesBackground";
+import SmoothCursor from "@/components/ui/SmoothCursor";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-black text-white overflow-hidden">
-      {/* Particles go behind content */}
+    <div className="relative min-h-screen bg-[var(--background)] text-white">
       <ParticlesBackground />
-
-      {/* All page content */}
+      <SmoothCursor />
       <div className="relative z-10">
         <HomeSections />
-        
-
       </div>
-    </main>
+    </div>
   );
 }
