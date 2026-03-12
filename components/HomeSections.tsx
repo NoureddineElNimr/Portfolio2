@@ -3,88 +3,47 @@
 import MagneticButton from "@/components/ui/MagneticButton";
 import AnimatedCard from "@/components/ui/AnimatedCard";
 import Highlighter from "@/components/ui/Highlighter";
+import OrbitingCircles from "@/components/ui/Orbitingcircles";
 import { projects } from "@/data/projects";
-import { skills, type Skill } from "@/data/skills";
+import { skills } from "@/data/skills";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-interface BubblePosition { left: number; top: number; }
+const CATEGORIES = ["All", "Programming", "Tools", "Social"] as const;
 
-function chunkArray<T>(arr: T[], size: number): T[][] {
-  const cols: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) cols.push(arr.slice(i, i + size));
-  return cols;
+function getCategoryCount(cat: string) {
+  if (cat === "All") return skills.length;
+  return skills.filter((s) => s.categories.includes(cat)).length;
 }
-function clampPercent(val: string, min = 8, max = 92): string {
-  const n = Number(String(val).replace("%", ""));
-  if (Number.isNaN(n)) return "10%";
-  return Math.min(max, Math.max(min, n)) + "%";
-}
+
+// Outer ring: first 7 skills, inner ring: remaining 6
+const outerOrbit = skills.slice(0, 7).map(({ id, name, icon, color }) => ({ id, name, icon, color }));
+const innerOrbit = skills.slice(7).map(({ id, name, icon, color }) => ({ id, name, icon, color }));
 
 export default function HomeSections() {
   const [category, setCategory] = useState("All");
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [computedPos, setComputedPos] = useState<Record<string, BubblePosition>>({});
 
+  // Ambient background animation — throttled to ~20fps (every 3 frames), paused when tab hidden
   useEffect(() => {
-    const resolve = () => {
-      const cont = containerRef.current;
-      if (!cont) return;
-      const { width: W, height: H } = cont.getBoundingClientRect();
-      const minDist = 60;
-      const nodes = skills.map((s) => ({
-        id: s.id,
-        x: (Number(String(s.bubble.left).replace("%","")) / 100) * W,
-        y: (Number(String(s.bubble.top).replace("%",""))  / 100) * H,
-      }));
-      for (let it = 0; it < 200; it++) {
-        let moved = false;
-        for (let i = 0; i < nodes.length; i++) {
-          for (let j = i + 1; j < nodes.length; j++) {
-            const a = nodes[i], b = nodes[j];
-            let dx = b.x - a.x, dy = b.y - a.y;
-            const dist = Math.sqrt(dx*dx + dy*dy) || 0.001;
-            if (dist < minDist) {
-              const o = (minDist - dist) / 2;
-              dx /= dist; dy /= dist;
-              a.x -= dx*o; a.y -= dy*o;
-              b.x += dx*o; b.y += dy*o;
-              moved = true;
-            }
-          }
-        }
-        for (const n of nodes) {
-          const m = 30;
-          const nx = Math.max(m, Math.min(W-m, n.x));
-          const ny = Math.max(m, Math.min(H-m, n.y));
-          if (nx !== n.x || ny !== n.y) moved = true;
-          n.x = nx; n.y = ny;
-        }
-        if (!moved) break;
-      }
-      const map: Record<string, BubblePosition> = {};
-      for (const n of nodes) map[n.id] = { left: n.x, top: n.y };
-      setComputedPos(map);
-    };
-    resolve();
-    window.addEventListener("resize", resolve);
-    return () => window.removeEventListener("resize", resolve);
-  }, []);
-
-  useEffect(() => {
-    let raf = 0, t = 0;
+    let raf = 0, t = 0, frame = 0;
     const speed = 0.0006;
     function step(now: number) {
-      t += (now || 16) * speed;
+      raf = requestAnimationFrame(step);
+      if (document.hidden) return; // pause when tab not visible
+      if (++frame % 3 !== 0) return; // only update every 3rd frame (~20fps)
+      t += (now || 16) * speed * 3; // compensate for skipped frames
       document.documentElement.style.setProperty("--bg-pos-x",   `${50 + Math.cos(t) * 12}%`);
       document.documentElement.style.setProperty("--bg-pos-y",   `${40 + Math.sin(t) * 8}%`);
-      document.documentElement.style.setProperty("--bg-pos-x-2", `${20 + Math.cos(t*0.7)*18}%`);
-      document.documentElement.style.setProperty("--bg-pos-y-2", `${70 + Math.sin(t*0.9)*10}%`);
-      raf = requestAnimationFrame(step);
+      document.documentElement.style.setProperty("--bg-pos-x-2", `${20 + Math.cos(t * 0.7) * 18}%`);
+      document.documentElement.style.setProperty("--bg-pos-y-2", `${70 + Math.sin(t * 0.9) * 10}%`);
     }
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
   }, []);
+
+  const filtered = category === "All"
+    ? skills
+    : skills.filter((s) => s.categories.includes(category));
 
   return (
     <div className="max-w-5xl mx-auto px-6 md:pr-28">
@@ -116,8 +75,6 @@ export default function HomeSections() {
 
       {/* ══ ABOUT + WHAT I BUILD ══ */}
       <section id="about" className="min-h-screen flex flex-col justify-center py-32 gap-16">
-
-        {/* About card */}
         <div>
           <div className="section-divider" />
           <AnimatedCard>
@@ -149,7 +106,6 @@ export default function HomeSections() {
           </AnimatedCard>
         </div>
 
-        {/* What I Build */}
         <div>
           <div className="text-center mb-10">
             <h3 className="text-2xl md:text-3xl font-extrabold mb-3 text-[color:var(--secondary-100)]">What I Build</h3>
@@ -160,8 +116,8 @@ export default function HomeSections() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               { title: "Web Design & UI/UX",     desc: "Clean, intuitive interfaces built around real user needs.", accent: "Design" },
-              { title: "Full-Stack Development", desc: "End-to-end apps with .NET, Angular, React and PHP.", accent: "Code" },
-              { title: "Performance & SEO",       desc: "Speed-focused, SEO-ready builds that get found.", accent: "Speed" },
+              { title: "Full-Stack Development", desc: "End-to-end apps with .NET, Angular, React and PHP.",       accent: "Code"   },
+              { title: "Performance & SEO",       desc: "Speed-focused, SEO-ready builds that get found.",         accent: "Speed"  },
             ].map(({ title, desc, accent }) => (
               <AnimatedCard key={title}>
                 <div className="flex flex-col gap-3 h-full">
@@ -183,60 +139,74 @@ export default function HomeSections() {
           <p className="text-white/45 max-w-xs mx-auto text-sm">Technologies and tools I work with every day.</p>
         </div>
 
-        <div className="glass skills-card p-6 md:p-8 rounded-2xl">
-          <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-            <div className="hidden md:flex gap-2">
-              {["All","Programming","Tools","Social"].map((c) => (
-                <button key={c} className={`btn-skill ${category===c?"active":""}`} onClick={()=>setCategory(c)} aria-pressed={category===c}>{c}</button>
+        {/* Two-column: left = filters + grid, right = orbiting circles */}
+        <div className="flex flex-col lg:flex-row gap-10 items-start">
+
+          {/* ── Left column ── */}
+          <div className="flex-1 min-w-0">
+            {/* Category filter pills */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {CATEGORIES.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setCategory(c)}
+                  aria-pressed={category === c}
+                  className={`skill-filter-pill ${category === c ? "active" : ""}`}
+                >
+                  {c}
+                  <span className="ml-1.5 text-xs font-bold opacity-60">{getCategoryCount(c)}</span>
+                </button>
               ))}
             </div>
-            <div className="md:hidden w-full">
-              <select className="select-skill text-sm w-full" value={category} onChange={(e)=>setCategory(e.target.value)}>
-                {["All","Programming","Tools","Social"].map((c)=><option key={c} value={c}>{c}</option>)}
-              </select>
+
+            {/* Skills grid — pure CSS transitions, no Framer layout measuring */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {skills.map((skill) => {
+                const visible = category === "All" || skill.categories.includes(category);
+                return (
+                  <div
+                    key={skill.id}
+                    className="group relative flex flex-col items-center gap-2.5 p-4 rounded-2xl cursor-default overflow-hidden"
+                    style={{
+                      background: "var(--card-bg)",
+                      border: "1px solid rgba(255,255,255,0.07)",
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.35)",
+                      transform: visible ? "scale(1) translateY(0)" : "scale(0.92) translateY(4px)",
+                      opacity: visible ? 1 : 0,
+                      pointerEvents: visible ? "auto" : "none",
+                      transition: "opacity 200ms ease, transform 200ms ease",
+                    }}
+                  >
+                    <div
+                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                      style={{ background: `radial-gradient(circle at 50% 50%, ${skill.color}22, transparent 70%)`, boxShadow: `0 0 0 1px ${skill.color}44` }}
+                    />
+                    <div
+                      className="relative w-11 h-11 rounded-full flex items-center justify-center shadow-lg flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
+                      style={{ background: skill.color }}
+                    >
+                      <img src={skill.icon} alt={skill.name} className="w-6 h-6" style={{ filter: "invert(1)" }} loading="lazy" />
+                    </div>
+                    <span className="relative text-xs font-semibold text-center leading-tight" style={{ color: "var(--secondary-100)" }}>
+                      {skill.name}
+                    </span>
+                    <div
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full w-0 group-hover:w-3/4 transition-all duration-300"
+                      style={{ background: skill.color, boxShadow: `0 0 8px ${skill.color}` }}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-6 flex-1">
-            <div className="skills-list w-full md:w-1/3 overflow-hidden">
-              <div className="flex gap-3 h-full overflow-y-auto pr-1">
-                {chunkArray(skills, 8).map((col: Skill[], i: number) => (
-                  <div key={i} className="flex flex-col gap-1.5">
-                    {col.map((s: Skill) => {
-                      const visible = category==="All" || s.categories.includes(category);
-                      return (
-                        <div key={s.id} aria-hidden={!visible}
-                          className={`flex items-center gap-3 px-2.5 py-2 rounded-xl transition-all duration-200 ${visible?"hover:bg-white/[0.05]":"dimmed pointer-events-none"}`}>
-                          <span className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center shadow" style={{background:s.color}}>
-                            <img src={s.icon} alt={s.name} className="w-3.5 h-3.5" style={{filter:"invert(1)"}} />
-                          </span>
-                          <span className="text-white/70 text-sm font-medium">{s.name}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex-1 relative hidden md:block min-h-[300px]">
-              <div ref={containerRef} className="w-full h-full absolute inset-0 rounded-xl overflow-hidden" style={{background:"rgba(0,0,0,0.2)"}}>
-                {skills.filter(s=>category==="All"||s.categories.includes(category)).map((s)=>{
-                  const computed = computedPos[s.id];
-                  return (
-                    <div key={s.id} className="skill-bubble absolute" style={{
-                      left: computed ? `${Math.round(computed.left)}px` : clampPercent(s.bubble.left),
-                      top:  computed ? `${Math.round(computed.top)}px`  : clampPercent(s.bubble.top),
-                    }}>
-                      <div className="bubble-dot w-11 h-11 rounded-full flex items-center justify-center"
-                        style={{background:s.color, animationDuration:`${(s.bubble.duration||12)*1.25}s`, animationDelay:`${s.bubble.delay||0}s`}}>
-                        <img src={s.icon} alt={s.name} className="w-5 h-5" style={{filter:"invert(1)"}} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+          {/* ── Right column: orbiting circles (desktop only) ── */}
+          <div className="hidden lg:flex items-center justify-center flex-shrink-0 self-center">
+            <OrbitingCircles
+              outerItems={outerOrbit}
+              innerItems={innerOrbit}
+              size={340}
+            />
           </div>
         </div>
       </section>
@@ -262,7 +232,7 @@ export default function HomeSections() {
                 <div className="flex flex-wrap gap-1.5">
                   {project.tools.split(",").map((t) => (
                     <span key={t} className="text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wide"
-                      style={{background:"rgba(0,173,204,0.10)", color:"rgba(0,200,230,0.9)", border:"1px solid rgba(0,173,204,0.20)"}}>
+                      style={{ background: "rgba(0,173,204,0.10)", color: "rgba(0,200,230,0.9)", border: "1px solid rgba(0,173,204,0.20)" }}>
                       {t.trim()}
                     </span>
                   ))}

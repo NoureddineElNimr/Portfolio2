@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ThemeProvider from "@/components/Themeprovider";
+import SmoothCursor from "@/components/ui/SmoothCursor";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -29,20 +31,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        /* No overflow:hidden — body scrolls normally */
-      >
-        {/* Navbar is fixed, sits outside the content flow */}
-        <Navbar />
-
-        {/* Normal page flow — scrolls naturally */}
-        <main>
-          {children}
-        </main>
-
-        <Footer />
+    // data-theme="dark" always matches useState(true) in ThemeProvider — no mismatch.
+    // ThemeProvider useEffect updates data-theme to "light" after hydration if needed.
+    // No inline script — that was mutating <html> style before React hydrated causing errors.
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+        <ThemeProvider>
+          <SmoothCursor />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

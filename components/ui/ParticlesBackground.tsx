@@ -1,18 +1,65 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Particles from "react-tsparticles";
-import type { Engine } from "tsparticles-engine"; // ✅ correct import
+import type { Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 
+export const THEME_CHANGE_EVENT = "portfolio-theme-change";
+
+const DARK_BG         = "#0a0a0a";
+const LIGHT_BG        = "#e8f4f8";
+const DARK_PARTICLE   = "#00adcc";
+const LIGHT_PARTICLE  = "#0099bb";
+
+/** Read the saved theme synchronously — no React needed */
+function getSavedDark(): boolean {
+  if (typeof window === "undefined") return true;
+  return (localStorage.getItem("portfolio-theme") ?? "dark") !== "light";
+}
+
+function applyColorsToContainer(c: any, dark: boolean) {
+  if (!c) return;
+  const color = dark ? DARK_PARTICLE : LIGHT_PARTICLE;
+  const bg    = dark ? DARK_BG       : LIGHT_BG;
+
+  if (c.canvas?.element) {
+    (c.canvas.element as HTMLCanvasElement).style.background = bg;
+  }
+  try {
+    c.options.particles.color.value  = color;
+    c.options.particles.links.color  = color;
+    c.options.background.color.value = bg;
+    c.refresh();
+  } catch (_) {
+    /* ignore */
+  }
+}
+
 export default function ParticlesBackground() {
+  const containerRef = useRef<any>(null);
+  // Read the correct theme right away so every mount starts with the right colors
+  const initialDark  = getSavedDark();
+
   const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine); // load all features
+    await loadFull(engine);
   }, []);
 
   const particlesLoaded = useCallback(async (container: any) => {
-    // optional: you can use the container
+    containerRef.current = container;
+    // Apply the current theme the moment particles are ready
+    applyColorsToContainer(container, getSavedDark());
+  }, []);
+
+  // Keep listening for live toggle events
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const dark = (e as CustomEvent<{ dark: boolean }>).detail.dark;
+      applyColorsToContainer(containerRef.current, dark);
+    };
+    window.addEventListener(THEME_CHANGE_EVENT, handler);
+    return () => window.removeEventListener(THEME_CHANGE_EVENT, handler);
   }, []);
 
   return (
@@ -22,7 +69,7 @@ export default function ParticlesBackground() {
       loaded={particlesLoaded}
       options={{
         fullScreen: { enable: true, zIndex: 0 },
-        background: { color: { value: "#0a0a0a" } },
+        background: { color: { value: initialDark ? DARK_BG : LIGHT_BG } },
         fpsLimit: 120,
         interactivity: {
           events: {
@@ -36,11 +83,11 @@ export default function ParticlesBackground() {
           },
         },
         particles: {
-          color: { value: "#00adcc" }, // your portfolio blue
+          color: { value: initialDark ? DARK_PARTICLE : LIGHT_PARTICLE },
           links: {
             enable: true,
             distance: 150,
-            color: "#00adcc",
+            color: initialDark ? DARK_PARTICLE : LIGHT_PARTICLE,
             opacity: 0.4,
             width: 1,
           },

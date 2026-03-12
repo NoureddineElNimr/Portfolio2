@@ -1,127 +1,102 @@
-import AnimatedCard from '@/components/ui/AnimatedCard';
 import MagneticButton from '@/components/ui/MagneticButton';
 import { projects } from '@/data/projects';
 import ProjectCarousel from '@/components/ui/ProjectCarousel';
 import ParticlesBackground from '@/components/ui/ParticlesBackground';
+import AnimatedCard from '@/components/ui/AnimatedCard';
 
 interface ProjectPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-
   const project = projects.find((p) => p.id === slug);
 
   if (!project)
-    return <p className="text-white text-center mt-20">Project not found</p>;
+    return (
+      <div className="relative min-h-screen bg-[var(--background)]">
+        <ParticlesBackground />
+        <p className="relative z-10 text-center mt-20" style={{ color: "var(--secondary-100)" }}>
+          Project not found
+        </p>
+      </div>
+    );
 
   return (
-    <main className="relative min-h-screen text-white">
+    <div className="relative min-h-screen bg-[var(--background)]">
       <ParticlesBackground />
 
-      <div className="pt-24 pb-20 flex flex-col gap-24">
+      {/* z-10 lifts all content above the fullScreen particles canvas */}
+      <div className="relative z-10 pt-24 pb-20 px-6 flex flex-col gap-24 max-w-5xl mx-auto md:pr-28">
 
-        {/* ================= HERO ================= */}
-        <section className="px-6">
+        {/* ── HERO ── */}
+        <section>
           <AnimatedCard>
-            <div className="max-w-5xl mx-auto flex flex-col gap-8 p-6 md:p-10">
-
-              {/* Title */}
-              <div className="text-center max-w-4xl mx-auto">
+            <div className="flex flex-col gap-8 p-6 md:p-10">
+              <div className="text-center">
                 <h1 className="text-3xl md:text-5xl font-extrabold text-[color:var(--primary)] mb-4">
                   {project.title}
                 </h1>
-                <p className="text-gray-300 text-base md:text-lg">
+                <p className="text-base md:text-lg max-w-2xl mx-auto" style={{ color: "var(--secondary-100)", opacity: 0.7 }}>
                   {project.description}
                 </p>
               </div>
 
-              {/* Image */}
-              <div className="w-full aspect-video glass overflow-hidden rounded-md">
+              <div className="w-full aspect-video overflow-hidden rounded-xl glass">
                 <img
-                  src={project.carouselImages[0]}
+                  src={project.carouselImages?.[0] ?? project.image}
                   alt={project.title}
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              {/* Meta Info */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="glass p-4 text-center">
-                  <p className="font-extrabold text-[color:var(--primary)]">ROLE</p>
-                  <p className="mt-2 text-[color:var(--secondary-100)]">
-                    {project.role}
-                  </p>
-                </div>
-
-                <div className="glass p-4 text-center">
-                  <p className="font-extrabold text-[color:var(--primary)]">TIMELINE</p>
-                  <p className="mt-2 text-[color:var(--secondary-100)]">
-                    {project.timeline}
-                  </p>
-                </div>
-
-                <div className="glass p-4 text-center">
-                  <p className="font-extrabold text-[color:var(--primary)]">TOOLS</p>
-                  <p className="mt-2 text-[color:var(--secondary-100)]">
-                    {project.tools}
-                  </p>
-                </div>
+                {[
+                  { label: "ROLE",     value: project.role },
+                  { label: "TIMELINE", value: project.timeline },
+                  { label: "TOOLS",    value: project.tools },
+                ].map(({ label, value }) => (
+                  <div key={label} className="glass p-4 text-center rounded-xl">
+                    <p className="font-extrabold text-[color:var(--primary)] text-sm">{label}</p>
+                    <p className="mt-2 text-sm" style={{ color: "var(--secondary-100)" }}>{value}</p>
+                  </div>
+                ))}
               </div>
-
             </div>
           </AnimatedCard>
         </section>
 
-        {/* ================= OVERVIEW ================= */}
-        <section className="px-6">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 gap-8">
+        {/* ── OVERVIEW ── */}
+        <section className="flex flex-col gap-6">
+          <AnimatedCard>
+            <div className="p-6 md:p-8">
+              <h4 className="font-bold text-lg mb-3" style={{ color: "var(--secondary-100)" }}>Project Overview</h4>
+              <p className="leading-relaxed" style={{ color: "var(--secondary-100)", opacity: 0.72 }}>{project.overview}</p>
+            </div>
+          </AnimatedCard>
 
-            <AnimatedCard>
-              <div className="p-6 md:p-8">
-                <h4 className="font-bold text-lg text-[color:var(--secondary-100)] mb-2">
-                  Project Overview
-                </h4>
-                <p className="text-[color:var(--secondary-100)]">
-                  {project.overview}
-                </p>
-              </div>
-            </AnimatedCard>
-
-            <AnimatedCard>
-              <div className="p-6 md:p-8">
-                <h4 className="font-bold text-lg text-[color:var(--secondary-100)] mb-2">
-                  Realizations & What I Learned
-                </h4>
-                <p className="text-[color:var(--secondary-100)]">
-                  {project.realizations}
-                </p>
-              </div>
-            </AnimatedCard>
-
-          </div>
+          <AnimatedCard>
+            <div className="p-6 md:p-8">
+              <h4 className="font-bold text-lg mb-3" style={{ color: "var(--secondary-100)" }}>Realizations & What I Learned</h4>
+              <p className="leading-relaxed" style={{ color: "var(--secondary-100)", opacity: 0.72 }}>{project.realizations}</p>
+            </div>
+          </AnimatedCard>
         </section>
 
-        {/* ================= VISUAL SHOWCASE ================= */}
-        <section className="px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-extrabold mb-8 text-[color:var(--secondary-100)]">
+        {/* ── VISUAL SHOWCASE ── */}
+        <section>
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-8 text-center" style={{ color: "var(--secondary-100)" }}>
             Visual Showcase
           </h2>
-
-          <div className="max-w-5xl mx-auto">
-            <ProjectCarousel images={project.carouselImages} />
-          </div>
+          <ProjectCarousel images={project.carouselImages ?? []} />
         </section>
 
-        {/* ================= BACK BUTTON ================= */}
-        <section className="flex justify-center px-6">
-          <MagneticButton href="/#projects" variant="project">
-            Back to Projects
-          </MagneticButton>
-        </section>
+        {/* ── BACK BUTTON ── */}
+        <div className="flex justify-center">
+          <MagneticButton href="/#projects" variant="project">← Back to Projects</MagneticButton>
+        </div>
 
       </div>
-    </main>
+    </div>
   );
 }
