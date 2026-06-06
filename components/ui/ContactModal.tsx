@@ -22,7 +22,7 @@ export default function ContactModal() {
       <AnimatePresence>
         {open && (
           <Dialog open={open} onClose={setOpen} className="relative z-50">
-            
+
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -32,14 +32,13 @@ export default function ContactModal() {
             />
 
             <div className="fixed inset-0 flex items-center justify-center px-4">
-              
+
               {/* Modal */}
               <Dialog.Panel
                 as={motion.div}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
                 className="w-full max-w-md rounded-xl bg-[rgba(6,6,6,0.95)] border border-white/10 p-6 text-white shadow-xl"
               >
                 <Dialog.Title className="text-xl font-extrabold text-center mb-6 text-[color:var(--secondary-100)]">
@@ -48,16 +47,18 @@ export default function ContactModal() {
 
                 <div className="flex flex-col gap-4">
                   <a
-                    href="mailto:youremail@example.com"
+                    href="mailto:elnimr.noureddine@gmail.com"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
                     <HiMail className="w-5 h-5" />
                     Email
                   </a>
 
+                  {/* FIX #15: added rel="noopener noreferrer" to both external links */}
                   <a
-                    href="https://linkedin.com/in/yourprofile"
+                    href="https://www.linkedin.com/in/noureddine-elnimr/"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
                     <FaLinkedin className="w-5 h-5" />
@@ -65,8 +66,9 @@ export default function ContactModal() {
                   </a>
 
                   <a
-                    href="https://github.com/yourprofile"
+                    href="https://github.com/NoureddineElNimr"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-center gap-3 rounded-md bg-black/60 px-4 py-3 hover:bg-black transition"
                   >
                     <FaGithub className="w-5 h-5" />

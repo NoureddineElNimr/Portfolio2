@@ -3,16 +3,12 @@ import ParticlesBackground from "@/components/ui/ParticlesBackground";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-black text-white overflow-hidden">
-      {/* Particles go behind content */}
+    <div className="relative min-h-screen bg-[var(--background)]">
       <ParticlesBackground />
-
-      {/* All page content */}
+      {/* SmoothCursor is now in layout.tsx — no duplicate needed here */}
       <div className="relative z-10">
         <HomeSections />
-        
-
       </div>
-    </main>
+    </div>
   );
 }
