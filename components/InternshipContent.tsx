@@ -123,7 +123,7 @@ export default function InternshipContent() {
           <p className="text-white/60 text-base leading-relaxed mb-3">
             During my internship at Van Roey, I was embedded in a real ERP implementation project for
             Luxilon Industries — a world-leading manufacturer of high-tech monofilaments based in Wijnegem. The internship
-            ran from <strong className="text-white/80">4 March 2026</strong> to <strong className="text-white/80">22 May 2026</strong>.
+            ran from <strong className="text-white/80">23 February 2026</strong> to <strong className="text-white/80">22 May 2026</strong>.
           </p>
           <p className="text-white/60 text-base leading-relaxed mb-3">
             My role covered the full spectrum of a Business Central implementation: analyzing client processes, configuring
