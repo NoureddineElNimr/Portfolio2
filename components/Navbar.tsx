@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { HiHome, HiUser, HiDocumentText, HiFolder, HiMail } from "react-icons/hi";
+import { HiHome, HiUser, HiDocumentText, HiFolder, HiMail, HiBriefcase } from "react-icons/hi";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dialog } from "@headlessui/react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -12,10 +12,11 @@ import { useTheme } from "@/components/Themeprovider";
 const SCROLL_SECTIONS = ["home", "about", "tech-skills", "projects"];
 
 const NAV_ITEMS = [
-  { id: "home",     icon: HiHome,         label: "Home",     type: "scroll" as const },
-  { id: "about",    icon: HiUser,         label: "About",    type: "scroll" as const },
-  { id: "projects", icon: HiFolder,       label: "Projects", type: "scroll" as const },
-  { id: "cv",       icon: HiDocumentText, label: "CV",       type: "link"   as const, href: "/pages/cv" },
+  { id: "home",        icon: HiHome,         label: "Home",       type: "scroll" as const },
+  { id: "about",       icon: HiUser,         label: "About",      type: "scroll" as const },
+  { id: "projects",    icon: HiFolder,       label: "Projects",   type: "scroll" as const },
+  { id: "internship",  icon: HiBriefcase,    label: "Internship", type: "link"   as const, href: "/pages/internship" },
+  { id: "cv",          icon: HiDocumentText, label: "CV",         type: "link"   as const, href: "/pages/cv" },
 ];
 
 // ── Animated sliding pill toggle ────────────────────────
@@ -48,7 +49,7 @@ function AnimatedThemeToggler({ dark, onToggle }: { dark: boolean; onToggle: () 
       <span className="
         pointer-events-none absolute right-[calc(100%+12px)] top-1/2 -translate-y-1/2
         px-3 py-1.5 rounded-xl text-xs font-semibold tracking-wide whitespace-nowrap
-        bg-[rgba(6,6,6,0.95)] border border-white/10 text-white/90
+        nav-tooltip bg-[rgba(6,6,6,0.95)] border border-white/10 text-white/90
         opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0
         transition-all duration-150 shadow-xl
       ">{dark ? "Light mode" : "Dark mode"}</span>
@@ -63,9 +64,10 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname?.startsWith("/pages/cv")) setActive("cv");
-    else if (pathname === "/") setActive("home");
-  }, [pathname]);
+  if (pathname?.startsWith("/pages/cv"))         setActive("cv");
+  else if (pathname?.startsWith("/pages/internship")) setActive("internship");
+  else if (pathname === "/")                     setActive("home");
+}, [pathname]);
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -91,6 +93,7 @@ export default function Navbar() {
 
   const tooltip = (label: string) => (
     <span className="
+      nav-tooltip
       pointer-events-none absolute right-[calc(100%+12px)] top-1/2 -translate-y-1/2
       px-3 py-1.5 rounded-xl text-xs font-semibold tracking-wide whitespace-nowrap
       bg-[rgba(6,6,6,0.95)] border border-white/10 text-white/90
@@ -170,7 +173,7 @@ export default function Navbar() {
       <AnimatePresence>
         {contactOpen && (
           <Dialog open={contactOpen} onClose={() => setContact(false)} className="relative z-[9998]">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/75" />
             <div className="fixed inset-0 flex items-center justify-center px-4">
               <Dialog.Panel as={motion.div}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 30, scale: 0.95 }}

@@ -3,6 +3,7 @@ import Link from "next/link";
 type Props = {
   href?: string;
   children: React.ReactNode;
+  download?: string;
   variant?: "primary" | "project";
   onClick?: () => void;
 };
@@ -10,6 +11,7 @@ type Props = {
 export default function MagneticButton({
   href,
   children,
+  download,
   variant = "primary",
   onClick,
 }: Props) {
@@ -17,7 +19,7 @@ export default function MagneticButton({
 
   if (href) {
     return (
-      <Link href={href} className={cls}>
+      <Link href={href} className={cls} download={download}>
         {children}
       </Link>
     );

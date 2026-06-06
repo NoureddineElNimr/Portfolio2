@@ -9,7 +9,7 @@ import { loadFull } from "tsparticles";
 export const THEME_CHANGE_EVENT = "portfolio-theme-change";
 
 const DARK_BG         = "#0a0a0a";
-const LIGHT_BG        = "#e8f4f8";
+const LIGHT_BG        = "#f0f4f8";
 const DARK_PARTICLE   = "#00adcc";
 const LIGHT_PARTICLE  = "#0099bb";
 
@@ -88,7 +88,7 @@ export default function ParticlesBackground() {
             enable: true,
             distance: 150,
             color: initialDark ? DARK_PARTICLE : LIGHT_PARTICLE,
-            opacity: 0.4,
+            opacity: 0.15,
             width: 1,
           },
           collisions: { enable: false },
@@ -101,7 +101,7 @@ export default function ParticlesBackground() {
             outModes: { default: "out" },
           },
           number: { value: 100, density: { enable: true, area: 800 } },
-          opacity: { value: { min: 0.1, max: 0.5 } },
+          opacity: { value: { min: 0.05, max: 0.20 } },
           shape: { type: "circle" },
           size: { value: { min: 1, max: 5 } },
         },
