@@ -8,6 +8,8 @@ import { projects } from "@/data/projects";
 import { skills } from "@/data/skills";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { HiMail } from "react-icons/hi";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const CATEGORIES = ["All", "Programming", "Tools", "Social"] as const;
 
@@ -84,8 +86,7 @@ export default function HomeSections() {
                 <img
                   src="/profile/profile.png"
                   alt="Noureddine El Nimr"
-                  className="relative w-36 h-36 md:w-44 md:h-44 rounded-full object-cover border-2 border-[rgba(0,173,204,0.35)] shadow-[0_0_30px_rgba(0,173,204,0.22)]"
-                />
+                  className="relative w-36 h-36 md:w-44 md:h-44 rounded-full object-cover border-2 border-[rgba(0,173,204,0.35)] shadow-[0_0_30px_rgba(0,173,204,0.22)]" />
               </div>
               <div className="flex-1 text-center md:text-left">
                 <h2 className="text-2xl md:text-3xl font-extrabold mb-4 text-[color:var(--secondary-100)]">
@@ -98,37 +99,96 @@ export default function HomeSections() {
                   <Highlighter action="highlight" color="#00adcc">Thomas More, Geel</Highlighter>
                   , driven by a love for C#, .NET, and building things that actually work.
                 </p>
-                <Link href="/pages/cv">
-                  <MagneticButton>Check out my CV</MagneticButton>
-                </Link>
-              </div>
-            </div>
-          </AnimatedCard>
-        </div>
-
-        <div>
-          <div className="text-center mb-10">
-            <h3 className="text-2xl md:text-3xl font-extrabold mb-3 text-[color:var(--secondary-100)]">What I Build</h3>
-            <p className="text-white/45 max-w-md mx-auto text-base">
-              From concept to deployment — turning ideas into working software.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {[
-              { title: "Web Design & UI/UX",     desc: "Clean, intuitive interfaces built around real user needs.", accent: "Design" },
-              { title: "Full-Stack Development", desc: "End-to-end apps with .NET, Angular, React and PHP.",       accent: "Code"   },
-              { title: "Performance & SEO",       desc: "Speed-focused, SEO-ready builds that get found.",         accent: "Speed"  },
-            ].map(({ title, desc, accent }) => (
-              <AnimatedCard key={title}>
-                <div className="flex flex-col gap-3 h-full">
-                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-[color:var(--primary)] opacity-70">{accent}</span>
-                  <h4 className="font-bold text-[color:var(--secondary-100)] text-lg">{title}</h4>
-                  <p className="text-white/50 text-sm leading-relaxed flex-1">{desc}</p>
+                <p className="text-white/60 text-base md:text-lg leading-relaxed mb-6">
+                  I take ownership of my work, communicate clearly with both technical and non-technical
+                  stakeholders, and thrive when working in a team with a shared goal. During my internship
+                  at{" "}
+                  <Highlighter action="highlight" color="#00adcc">Van Roey</Highlighter>
+                  {" "}I learned to work independently in a professional environment, manage my own tasks,
+                  and adapt quickly when requirements changed — skills that no classroom fully prepares you for.
+                </p>
+                {/* Soft skills */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {[
+                    "Team player",
+                    "Clear communicator",
+                    "Fast learner",
+                    "Takes ownership",
+                    "Problem solver",
+                    "Eye for detail",
+                  ].map((s) => (
+                    <span
+                      key={s}
+                      className="text-[11px] font-semibold px-3 py-1 rounded-full tracking-wide"
+                      style={{
+                        background: "rgba(0,173,204,0.08)",
+                        color: "rgba(0,200,230,0.85)",
+                        border: "1px solid rgba(0,173,204,0.18)",
+                      }}
+                    >
+                      {s}
+                    </span>
+                  ))}
                 </div>
-              </AnimatedCard>
-            ))}
+
+                {/* Contact info */}
+                <div className="flex flex-wrap gap-4 mb-6 text-sm text-white/50">
+                  <a
+                    href="mailto:elnimr.noureddine@gmail.com"
+                    className="flex items-center gap-1.5 hover:text-[color:var(--primary)] transition-colors"
+                  >
+                    <HiMail className="w-4 h-4" />
+                    elnimr.noureddine@gmail.com
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/noureddine-elnimr/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 hover:text-[color:var(--primary)] transition-colors"
+                  >
+                    <FaLinkedin className="w-4 h-4" />
+                    linkedin.com/in/noureddine-elnimr
+                  </a>
+                  <a
+                  href="https://github.com/NoureddineElNimr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-[color:var(--primary)] transition-colors"
+                  >
+                  <FaGithub className="w-4 h-4" />
+                  github.com/NoureddineElNimr
+                </a>
+              </div>
+
+              <Link href="/pages/cv">
+                <MagneticButton>Check out my CV</MagneticButton>
+              </Link>
+            </div>
           </div>
+      </AnimatedCard>
+    </div><div>
+        <div className="text-center mb-10">
+          <h3 className="text-2xl md:text-3xl font-extrabold mb-3 text-[color:var(--secondary-100)]">What I Build</h3>
+          <p className="text-white/45 max-w-md mx-auto text-base">
+            From concept to deployment — turning ideas into working software.
+          </p>
         </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {[
+            { title: "Web Design & UI/UX", desc: "Clean, intuitive interfaces built around real user needs.", accent: "Design" },
+            { title: "Full-Stack Development", desc: "End-to-end apps with .NET, Angular, React and PHP.", accent: "Code" },
+            { title: "Performance & SEO", desc: "Speed-focused, SEO-ready builds that get found.", accent: "Speed" },
+          ].map(({ title, desc, accent }) => (
+            <AnimatedCard key={title}>
+              <div className="flex flex-col gap-3 h-full">
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-[color:var(--primary)] opacity-70">{accent}</span>
+                <h4 className="font-bold text-[color:var(--secondary-100)] text-lg">{title}</h4>
+                <p className="text-white/50 text-sm leading-relaxed flex-1">{desc}</p>
+              </div>
+            </AnimatedCard>
+          ))}
+        </div>
+      </div>
       </section>
 
       {/* ══ SKILLS ══ */}

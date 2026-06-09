@@ -101,7 +101,7 @@ export default function InternshipContent() {
         <p className="text-lg text-white/50 max-w-2xl leading-relaxed mb-4">
           Final-year internship at{" "}
           <Highlighter action="highlight" color="#00adcc">Van Roey</Highlighter>
-          {" "}in Geel, Belgium — working on Microsoft Dynamics 365 Business Central ERP implementations,
+          {" "}in Turnhout, Belgium — working on Microsoft Dynamics 365 Business Central ERP implementations,
           with a primary focus on the Luxilon Industries project.
         </p>
         <div className="flex flex-wrap gap-2 mt-6">
