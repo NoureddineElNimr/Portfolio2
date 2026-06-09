@@ -39,23 +39,16 @@ const downloadCards = [
     label: "Project Plan",
     desc: "Project charter covering scope, objectives, milestones and risk analysis for the Luxilon BC implementation.",
     icon: "📋",
-    file: "/Projectplaning.pdf",
+    file: "/Documents/Projectplaning.pdf",
     name: "ProjectPlan_LXN.pdf",
   },
   {
     label: "Realization Document",
     desc: "Full thesis-style document — analysis, implementation results, tools, and reflection on the internship period.",
     icon: "📄",
-    file: "/realisatiedocument.docx",
-    name: "Realisatiedocument_NoureddineElNimr.docx",
-  },
-  {
-    label: "Reflection",
-    desc: "Personal reflection on learning outcomes, challenges faced, and professional growth during the internship.",
-    icon: "💭",
-    file: "/reflection.pdf",
-    name: "Reflection_NoureddineElNimr.pdf",
-  },
+    file: "/Documents/realisatiedocument.pdf",
+    name: "Realisatiedocument_NoureddineElNimr.pdf",
+  }
 ];
 
 const highlights = [

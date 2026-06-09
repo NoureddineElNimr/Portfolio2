@@ -82,7 +82,7 @@ export default function HomeSections() {
               <div className="flex-shrink-0 relative">
                 <div className="absolute inset-0 rounded-full bg-[color:var(--primary)] opacity-15 blur-2xl scale-125" />
                 <img
-                  src="/profile.jpg"
+                  src="/profile/profile.png"
                   alt="Noureddine El Nimr"
                   className="relative w-36 h-36 md:w-44 md:h-44 rounded-full object-cover border-2 border-[rgba(0,173,204,0.35)] shadow-[0_0_30px_rgba(0,173,204,0.22)]"
                 />
