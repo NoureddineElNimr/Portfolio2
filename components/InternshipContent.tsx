@@ -48,7 +48,14 @@ const downloadCards = [
     icon: "📄",
     file: "/Documents/realisatiedocument.pdf",
     name: "Realisatiedocument_NoureddineElNimr.pdf",
-  }
+  },
+  {
+    label: "Reflection",
+    desc: "Personal reflection on learning outcomes, challenges faced, and professional growth during the internship.",
+    icon: "💭",
+    file: "/Documents/Noureddine_ElNimr_reflectie.pdf",
+    name: "Reflection_NoureddineElNimr.pdf",
+  },
 ];
 
 const highlights = [
